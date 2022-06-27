@@ -27,6 +27,7 @@ const Form = ({entity}) => {
             return <input
               type="hidden"
               name="id"
+              key="id"
               value={entityValue}
             />
           } else {
