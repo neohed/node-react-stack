@@ -1,26 +1,25 @@
 import React from 'react';
 import InputLabel from "./InputLabel";
+import {isEmptyString, titleFromName} from "./strings";
 import './form.css'
 
-const isNullOrUndefined = prop => prop === null
-  || prop === undefined;
-const isEmptyString = prop => isNullOrUndefined(prop)
-  || prop === '';
-const capitalize = word =>
-  word.charAt(0).toUpperCase() +
-  word.slice(1).toLowerCase();
-
-function titleFromName(name) {
-  if (isEmptyString(name)) {
-    return '';
-  }
-
-  return name.split(/(?=[A-Z])|\s/).map(s => capitalize(s)).join(' ')
-}
-
-const Form = ({entity}) => {
+const Form = ({entity, onSubmitHandler}) => {
   return (
-    <form>
+    <form onSubmit={e => {
+      const form = e.target;
+      const newEntity = Object.values(form).reduce((obj, field) => {
+        if (!isEmptyString(field.name)) {
+          obj[field.name] = field.value
+        }
+
+        return obj
+      }, {})
+
+      onSubmitHandler(newEntity);
+
+      e.stopPropagation();
+      e.preventDefault()
+    }}>
       {
         Object.entries(entity).map(([entityKey, entityValue]) => {
           if (entityKey === "id") {

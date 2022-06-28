@@ -10,20 +10,24 @@ const AddEditNote = () => {
 
     async function fetchData() {
       console.log('Calling fetch...')
-      const response = await fetch('http://localhost:4011/note', {
-        signal: abortController.signal,
-      });
+      try {
+        const response = await fetch('http://localhost:4011/note', {
+          signal: abortController.signal,
+        });
 
-      if (response.ok) {
-        console.log('Response received from server and is ok!')
-        const {note} = await response.json();
+        if (response.ok) {
+          console.log('Response received from server and is ok!')
+          const {note} = await response.json();
 
-        if (abortController.signal.aborted) {
-          console.log('Abort detected, exiting!')
-          return;
+          if (abortController.signal.aborted) {
+            console.log('Abort detected, exiting!')
+            return;
+          }
+
+          setNote(note)
         }
-
-        setNote(note)
+      } catch(e) {
+        console.log(e)
       }
     }
 
@@ -32,7 +36,7 @@ const AddEditNote = () => {
     return () => {
       console.log('Aborting GET request.')
       abortController.abort();
-    };
+    }
   }, [])
 
   return (

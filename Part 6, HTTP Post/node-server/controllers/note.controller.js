@@ -12,6 +12,21 @@ async function getNote(req, res) {
   res.json({ note });
 }
 
+async function postNote(req, res) {
+  const {body} = req;
+  const {id, title, content, author, lang, isLive, category} = body;
+
+  console.log('Server received data:');
+  console.log({id, title, content, author, lang, isLive, category})
+
+  res
+    .status(200)
+    .json({
+      message: 'Ok'
+    })
+}
+
 module.exports = {
-  getNote
+  getNote,
+  postNote
 }
