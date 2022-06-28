@@ -17,12 +17,13 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 initRoutes(app);
 
+/*
 app.use(function (req, res, next) {
   const error = 'Here be dragons. Route not found';
   console.info(`404 error! ${error}`)
   res.status(404).send(error);
 });
-
+*/
 const port = 4011;
 
 app.listen({port}, async () => {
