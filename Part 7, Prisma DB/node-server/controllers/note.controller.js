@@ -1,15 +1,9 @@
-const note = {
-  id: 1,
-  title: 'A Note',
-  content: 'Lorem ipsum dolor sit amet',
-  author: 'neohed',
-  lang: 'en',
-  isLive: true,
-  category: '',
-}
+const noteRepo = require('../models/note.model');
 
 async function getNote(req, res) {
-  res.json({ note });
+  const notes = await noteRepo.getDrafts();
+  console.log(notes)
+  res.json({ note: notes[0] });
 }
 
 async function postNote(req, res) {
