@@ -1,11 +1,11 @@
-import { PrismaClient } from "@prisma/client";
+const { PrismaClient } = require("@prisma/client")
 
 const prisma = new PrismaClient();
 
 async function seed() {
   // Blitz everything!
   await prisma.note.deleteMany();
-  await prisma.user.deleteMany();
+  await prisma.author.deleteMany();
 
   const author = await prisma.author.create({
     data: {
