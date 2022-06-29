@@ -23,8 +23,8 @@ model Note {
 }
 
 model Author {
-  id      String @id @default(cuid())
-  name    String
+  id        String @id @default(cuid())
+  username  String @unique
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

@@ -8,13 +8,14 @@ const Form = ({entity, onSubmitHandler}) => {
     <form onSubmit={e => {
       const form = e.target;
       const newEntity = Object.values(form).reduce((obj, field) => {
-        if (!isEmptyString(field.name)) {
-          obj[field.name] = field.value
+        const {name} = field;
+
+        if (!isEmptyString(name)) {
+          obj[name] = field.value
         }
 
         return obj
-      }, {})
-
+    }, {})
       onSubmitHandler(newEntity);
 
       e.stopPropagation();

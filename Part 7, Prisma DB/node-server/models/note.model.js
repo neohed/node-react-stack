@@ -1,20 +1,22 @@
 const { prisma } = require("./db")
 
-async function getDrafts() {
+async function getNotes() {
   return prisma.note.findMany();
 }
 
-async function getDraft(id) {
+async function getNote(id) {
   return prisma.note.findUnique({ where: { id } });
 }
 
-async function createDraft(
+async function createNote(
   note
 ) {
-  return prisma.note.create({ note });
+  return prisma.note.create({
+    data: note
+  });
 }
 
-async function updateDraft(
+async function updateNote(
   note
 ) {
   return prisma.draft.update({
@@ -23,8 +25,8 @@ async function updateDraft(
 }
 
 module.exports = {
-  getDrafts,
-  getDraft,
-  createDraft,
-  updateDraft,
+  getNotes,
+  getNote,
+  createNote,
+  updateNote,
 }

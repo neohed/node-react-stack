@@ -1,9 +1,17 @@
+const authorRepo = require('../models/author.model');
 const noteRepo = require('../models/note.model');
 
 async function getNote(req, res) {
-  const notes = await noteRepo.getDrafts();
-  console.log(notes)
-  res.json({ note: notes[0] });
+  const notes = await noteRepo.getNotes();
+  //HACK return top 1 note
+  const { authorId, ...noteRest } = notes[0];
+  const { username } = await authorRepo.getAuthor(authorId);
+
+  res.json({ note: {
+      ...noteRest,
+      author: username
+    }
+  });
 }
 
 async function postNote(req, res) {

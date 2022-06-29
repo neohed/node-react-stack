@@ -1,5 +1,4 @@
 const { PrismaClient } = require("@prisma/client")
-
 const prisma = new PrismaClient();
 
 async function seed() {
@@ -9,14 +8,14 @@ async function seed() {
 
   const author = await prisma.author.create({
     data: {
-      name: 'neohed'
+      username: 'neohed'
     },
   });
 
   await prisma.note.create({
     data: {
-      title: 'A Note',
-      content: 'Lorem ipsum dolor sit amet',
+      title: 'A New Note',
+      content: 'This note is retrieved from the database!',
       authorId: author.id,
       lang: 'en',
       isLive: true,
@@ -24,17 +23,17 @@ async function seed() {
     },
   });
 
-  console.log(`Database has been seeded. 🌱`);
+  console.log(`Database has been seeded. 🌱`)
 }
 
 seed()
   .then(() => {
-    console.log('Prisma seed function in prisma/seed.ts executed!')
+    console.log('Prisma seed function in prisma/seed.js executed!')
   })
   .catch((e) => {
     console.error(e);
-    process.exit(1);
+    process.exit(1)
   })
   .finally(async () => {
-    await prisma.$disconnect();
-  });
+    await prisma.$disconnect()
+  })
