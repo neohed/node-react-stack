@@ -19,7 +19,7 @@ async function createNote(
 async function updateNote(
   note
 ) {
-  return prisma.draft.update({
+  return prisma.note.update({
     data: note,
   });
 }
