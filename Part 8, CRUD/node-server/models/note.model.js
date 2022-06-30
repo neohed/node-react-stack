@@ -1,11 +1,11 @@
 const { prisma } = require("./db")
 
 async function getNotes() {
-  return prisma.note.findMany();
+  return prisma.note.findMany()
 }
 
 async function getNote(id) {
-  return prisma.note.findUnique({ where: { id } });
+  return prisma.note.findUnique({ where: { id } })
 }
 
 async function createNote(
@@ -13,15 +13,28 @@ async function createNote(
 ) {
   return prisma.note.create({
     data: note
-  });
+  })
 }
 
 async function updateNote(
-  note
+  id, note
 ) {
-  return prisma.draft.update({
+  return prisma.note.update({
     data: note,
-  });
+    where: {
+      id
+    }
+  })
+}
+
+async function deleteNote(
+  id
+) {
+  return prisma.note.delete({
+    where: {
+      id
+    }
+  })
 }
 
 module.exports = {
@@ -29,4 +42,5 @@ module.exports = {
   getNote,
   createNote,
   updateNote,
+  deleteNote,
 }

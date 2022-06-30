@@ -1,17 +1,29 @@
-import React from 'react';
+import React, {useState} from 'react';
 import InputLabel from "./InputLabel";
-import {isEmptyString, titleFromName} from "./strings";
+import {isEmptyString, isNullOrUndefined, titleFromName} from "./strings";
 import './form.css'
 
-const Form = ({entity, onSubmitHandler}) => {
+const Form = ({entity, onSubmitHandler, onDeleteHandler}) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   return (
     <form onSubmit={e => {
+      setIsSubmitting(true);
       const form = e.target;
       const newEntity = Object.values(form).reduce((obj, field) => {
         const {name} = field;
 
         if (!isEmptyString(name)) {
-          obj[name] = field.value
+          switch (typeof entity[name]) {
+            case "number":
+              obj[name] = field.valueAsNumber;
+              break;
+            case "boolean":
+              obj[name] = field.value === 'true';
+              break;
+            default:
+              obj[name] = field.value
+          }
         }
 
         return obj
@@ -21,6 +33,9 @@ const Form = ({entity, onSubmitHandler}) => {
       e.stopPropagation();
       e.preventDefault()
     }}>
+      <fieldset
+        disabled={isSubmitting}
+      >
       {
         Object.entries(entity).map(([entityKey, entityValue]) => {
           if (entityKey === "id") {
@@ -45,11 +60,26 @@ const Form = ({entity, onSubmitHandler}) => {
           }
         })
       }
+      </fieldset>
       <button
         type="submit"
+        disabled={isSubmitting}
       >
-        Submit
+        {
+          isSubmitting ? 'Submitting' : 'Submit'
+        }
       </button>
+      {
+        onDeleteHandler && !isNullOrUndefined(entity.id) && <button
+          disabled={isSubmitting}
+          onClick={() => {
+            setIsSubmitting(true);
+            onDeleteHandler(entity.id)
+          }}
+        >
+          Delete
+        </button>
+      }
     </form>
   );
 };
